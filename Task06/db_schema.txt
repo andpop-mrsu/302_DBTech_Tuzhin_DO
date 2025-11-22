@@ -1,0 +1,41 @@
+СХЕМА БАЗЫ ДАННЫХ
+
+ТАБЛИЦЫ:
+1. users (PK: userId)
+   - username UNIQUE NOT NULL
+   - email UNIQUE NOT NULL  
+   - gender CHECK('M','F')
+   - registration_date DEFAULT CURRENT_TIMESTAMP
+
+2. movies (PK: movieId)
+   - title NOT NULL
+   - release_year
+   - created_date DEFAULT CURRENT_TIMESTAMP
+
+3. genres (PK: genreId)
+   - genre_name UNIQUE NOT NULL
+
+4. movie_genres (PK: movieId, genreId)
+   - FOREIGN KEY movieId → movies ON DELETE CASCADE
+   - FOREIGN KEY genreId → genres ON DELETE CASCADE
+
+5. ratings (PK: userId, movieId)
+   - rating CHECK(0-5)
+   - timestamp
+   - created_date DEFAULT CURRENT_TIMESTAMP
+   - FOREIGN KEY userId → users ON DELETE CASCADE
+   - FOREIGN KEY movieId → movies ON DELETE RESTRICT
+
+6. tags (PK: tagId)
+   - tag NOT NULL
+   - timestamp
+   - created_date DEFAULT CURRENT_TIMESTAMP
+   - FOREIGN KEY userId → users ON DELETE CASCADE
+   - FOREIGN KEY movieId → movies ON DELETE CASCADE
+
+ОГРАНИЧЕНИЯ ЦЕЛОСТНОСТИ:
+✓ UNIQUE email пользователей
+✓ Пол только M или F  
+✓ Рейтинг от 0 до 5
+✓ Нельзя удалить фильм с отзывами (RESTRICT)
+✓ Каскадное удаление отзывов при удалении пользователя
